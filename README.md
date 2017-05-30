@@ -1,155 +1,66 @@
 # plexvps
-Plex + Google Drive + Torrent + Sickrage en un VPS
+La idea de esta guía es montar un servidor de Plex con Google Drive en un VPS con linux (ubuntu en mi caso). 
+Lo acompañaré de algunos extras como: cliente de torrent (transmission), sickrage para descargar series de forma automatica, plexpy para monitorizar nuestro servidor plex y algunos scripts y consideraciones para mejorar la experiencia a la hora del visionado.
 
+## rclone
+Utilizaremos rclone para montar Google Drive como  unidad de disco en nuestro sistema de tal forma que Plex pueda leer directamente de ahí el contenido. 
 
-
----------------------
-instalar rclone: montar google drive como unidad para que plex lea de ella
----------------------
--Linux installation from precompiled binary
--Fetch and unpack
-
+Descargamos la versión más actual de su web y lo descomprimimos.
+```
 curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
 unzip rclone-current-linux-amd64.zip
 cd rclone-*-linux-amd64
-
--Copy binary file
-
+```
+Copiamos el binario.
+```
 sudo cp rclone /usr/bin/
 sudo chown root:root /usr/bin/rclone
 sudo chmod 755 /usr/bin/rclone
-
--Install manpage
-
+```
+Instalamos manpage.
+```
 sudo mkdir -p /usr/local/share/man/man1
 sudo cp rclone.1 /usr/local/share/man/man1/
 sudo mandb 
-
--Run rclone config to setup. See rclone config docs for more details.
-
+```
+Entramos en la configuración.
+```
 rclone config
+```
+N: creamos una nueva unidad
+7: del tipo Google Drive
+Dejamos client id y client secret en blanco
+En el siguiente paso le damos a N y nos dará una url que debemos pegar en nuestro navegador (en tu ordenador local), loguearnos con nuestra cuenta de Google Drive que vayamos a utilizar y copiar el token que nos da y pegarlo.
 
-- Opcion "n", dar nombre e ir a la url para coger id.
-
-* Si queremos hacer copias de un shared folder a otro, hay que crear otra unidad como nueva con otro nombre para hacer copias de uno a otro y aprovechas el bandwith.
-
-- Montar la unidad
-
+Creamos una carpeta y montamos la unidad en ella.
+```
 mkdir /home/plexcloud
 rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud/ &
+```
 
-------------------------------------
-instalar plexmediaserver
-------------------------------------
-wget downloadwebdeplex
-dkpg -i esearchivo
+Si todo ha ido bien, listado el directorio deberéis ver vuestro contenido del drive.
+```
+ls /home/plexcloud
+```
 
-- tunneling: ssh root@ipvps -L 8888:localhost:32400
-- acceder en tu pc local a http://localhost:8888
-- configurar y luego ya estara disponible en http://ipvps:32400
+## Servidor plex
+Vamos a instalar el plex media server y configurarlo.
 
-------------------------------------
-instalar plexpy : monitorizar actividad plex y notificaciones
-------------------------------------
+En la sección de Downloads de su web, copiamos el enlace de la versión de linux, en mi caso Ubuntu 64 bits.
+Descargamos e instalamos.
+```
+wget enlacecopiado
+dkpg -i archivodescargado
+```
 
-https://www.htpcbeginner.com/install-plexpy-on-ubuntu/
+Para acceder por primera vez, como entorno gráfico en linux y por tanto no hay navegador, debemos hacer un tunneling por ssh para enlazar nuestro localhost con el VPS.
+```
+ssh root@ipvps -L 8888:localhost:32400
+```
 
+Ahora accedemos en nuestro navegador a http://localhost:8888 y plex debería darnos la bienvenida para proceder a su configuración.
+Añadimos las bibliotecas que queramos apuntando al contenido del drive, que detecta como una carpeta más.
 
------------------------------------------------------------
-instalar tranmission: descargas de torrents
------------------------------------------------------------
+En principio Plex debería empezar a escanear todo el contenido de los directorios que le hayamos indicado y una vez acabe ya está disponible par utilizarlo en cualquier dispositivo.
 
-
-apt-get install tranmission-daemon
-
-- Paramos el servicio:
-
-service plexmediaserver stop
-
-- Configurar las preferencias:
-
-nano /var/lib/transmission-daemon/.config/transmission-daemon/settings.json
-
-- Modificar user y pass ( si quieres, por defecto es transmission / transmission ).  rpc-whitelist-enabled a false para que nos deje entrar via web, tambien podemos dejarlo en true y poner nuestra ip en rpc-whitelist. 
-    "rpc-password": "passwordquetuquieras", 
-    "rpc-username": "transmission", 
-    "rpc-whitelist-enabled": false, 
-
--  Habilitar carpeta de incomplete
-
-"incomplete-dir-enabled": true, 
-"incomplete-dir": "/var/lib/transmission-daemon/incomplete",
-
-- Guardamos con Ctrl+X -> Y.
-- Creamos el directorio con y le damos el propietario a user de transmission:
-
-mkdir /var/lib/transmission-daemon/incomplete
-chown debian-tranmission:debian-tranmission /var/lib/transmission-daemon/incomplete
-
-- Arrancamos de nuevo el servicio
-
-service plexmediaserver start
-
-- Acceder con http://ipvps:9091
-
------------------
-Copiar autómaticamente descargas completas al drive
-------------------
-
-Descargar script y situarlo en /home/rclonemv.sh (por ejemplo)
-
-- Poner en el cron para que se haga cada X minutos:
-
-crontab -e
-
-# Edit this file to introduce tasks to be run by cron.
-#
-# Each task to run has to be defined through a single line
-# indicating with different fields when the task will be run
-# and what command to run for the task
-#
-# To define the time you can provide concrete values for
-# minute (m), hour (h), day of month (dom), month (mon),
-# and day of week (dow) or use '*' in these fields (for 'any').#
-# Notice that tasks will be started based on the cron's system
-# daemon's notion of time and timezones.
-#
-# Output of the crontab jobs (including errors) is sent through
-# email to the user the crontab file belongs to (unless redirected).
-#
-# For example, you can run a backup of all your user accounts
-# at 5 a.m every week with:
-# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
-#
-# For more information see the manual pages of crontab(5) and cron(8)
-#
-# m h  dom mon dow   command
-*/15 * * * * /home/rclonemv.sh
-
-
----------
-Copiar de nube a nube o carpeta compartida
----------
-
-- Si nos comparten una carpeta, damos boton derecho en ella y pinchamos en "Añadir a nuestro drive"
-- Una vez hecho esto, vamos a duplicar el servidor en rclone para hacer una copia como si estuviesemos copiando de nube a nube
-
-rclone config
-
-- Opcion "n", dar nombre e ir a la url para coger id. Le damos otro nombre para diferenciarlas.
-
-- Para hacer la copia
-
-rclone copy -v --stats 30s drive1:ruta drive2:ruta
-
-_______
-
-XML Plex no transcoding AC3 on iOS
-
-https://forums.plex.tv/discussion/260803/unnecessary-transcoding-of-h264
-
-------
-rclone google cloud platform
-------
-https://docs.google.com/document/d/17sOynlIKO5cgdzir4xmxzKHLGglKGGtT4zNsBklvSnQ/edit
-
+A partir de ahora, podéis acceder a vuestro servidor plex mediante http://ipvps:32400
