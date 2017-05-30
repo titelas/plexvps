@@ -142,3 +142,39 @@ WantedBy=multi-user.target
 Guardamos con Ctrl + X y Yes (Y).
 
 Ya podremos acceder a la interfaz de plexpy y configurarlo a traves de http://ipvps:8081
+
+
+
+## transmission
+Instalamos transmission para poder descargar torrents mediante el VPS sin tener ocupada nuestro ancho de banda.
+
+Instalación y configuración.
+```
+sudo apt-get install tranmission-daemon
+sudo service plexmediaserver stop
+sudo nano /var/lib/transmission-daemon/.config/transmission-daemon/settings.json
+```
+
+- Modificar user y pass ( si quieres, por defecto es transmission / transmission ) y quitamos la whitelist.
+- Habilitamos una carpeta para que se descarguen los torrents temporalmente, y luego se copien a otra cuando ya estén completados.
+```
+"rpc-password": "{beb0a38055a0b658f15823f45bb3473696f690326Jhy/s2r", 
+"rpc-username": "transmission", 
+"rpc-whitelist-enabled": false, 
+"incomplete-dir-enabled": true, 
+"incomplete-dir": "/var/lib/transmission-daemon/incomplete",
+```
+
+Guardamos con Ctrl+X -> Y.
+
+Creamos el directorio con y le damos el propietario a user de transmission:.
+```
+mkdir /var/lib/transmission-daemon/incomplete
+chown debian-tranmission:debian-tranmission /var/lib/transmission-daemon/incomplete
+```
+
+Arrancamos de nuevo el servicio
+
+service plexmediaserver start
+
+Accedemos a la interfaz web a través de http://ipvps:9091.
