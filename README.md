@@ -2,6 +2,16 @@
 La idea de esta guía es montar un servidor de Plex con Google Drive en un VPS con linux (ubuntu en mi caso). 
 Lo acompañaré de algunos extras como: cliente de torrent (transmission), sickrage para descargar series de forma automatica, plexpy para monitorizar nuestro servidor plex y algunos scripts y consideraciones para mejorar la experiencia a la hora del visionado.
 
+## VPS y SSH
+En mi caso voy a utilizar un VPS pequeño y barato de Scaleway (https://www.scaleway.com 2.99€) ya que voy a hacer direct play de todo el contenido, pero tened en cuenta que si alguno de vuestros users va a necesitar transcoding, este server no va a poder con ello. Necesitaréis mínimo 4 cores, se recomienda una puntuación mínima de 2000 en passmark para un sólo transcoding a 1080p.
+
+Otras opciones económicas: https://www.kimsufi.com/es/servidores.xml 
+
+Cuando tengamos el vps arrancado, tenemos que entrar por ssh. Seguramente en el panel nos indiquen cómo hacerlo pero lo normal es abrir un sesión en PuTTy (Windows) o Terminal (Mac OS).
+```
+ssh root@ipvps
+```
+
 ## rclone
 Utilizaremos rclone para montar Google Drive como  unidad de disco en nuestro sistema de tal forma que Plex pueda leer directamente de ahí el contenido. 
 
@@ -27,9 +37,12 @@ Entramos en la configuración.
 ```
 rclone config
 ```
-N: creamos una nueva unidad
-7: del tipo Google Drive
-Dejamos client id y client secret en blanco
+N: creamos una nueva unidad.
+
+7: del tipo Google Drive.
+
+Dejamos client id y client secret en blanco.
+
 En el siguiente paso le damos a N y nos dará una url que debemos pegar en nuestro navegador (en tu ordenador local), loguearnos con nuestra cuenta de Google Drive que vayamos a utilizar y copiar el token que nos da y pegarlo.
 
 Creamos una carpeta y montamos la unidad en ella.
