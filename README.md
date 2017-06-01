@@ -273,3 +273,6 @@ Respecto al parámetro --transfers, indica el número de transferencias simultá
 - XML no transcoding -> https://forums.plex.tv/discussion/260803/unnecessary-transcoding-of-h264
 - Instalación plexpy -> https://www.htpcbeginner.com/install-plexpy-on-ubuntu/
 - rclone a 300MB/s con google cloud platform -> https://docs.google.com/document/d/17sOynlIKO5cgdzir4xmxzKHLGglKGGtT4zNsBklvSnQ/edit
+
+### Contacto
+http://t.me/titelas
