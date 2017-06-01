@@ -1,11 +1,17 @@
 # plexvps
 La idea de esta guía es montar un servidor de Plex con Google Drive en un VPS con linux (ubuntu en mi caso). 
-Lo acompañaré de algunos extras como: cliente de torrent (transmission), sickrage para descargar series de forma automatica, plexpy para monitorizar nuestro servidor plex y algunos scripts y consideraciones para mejorar la experiencia a la hora del visionado.
+Lo acompañaré de algunos extras como: cliente de torrent (transmission), plexpy para monitorizar nuestro servidor plex y algunos scripts y consideraciones para mejorar la experiencia a la hora del visionado.
 
+### Ventajas Plex VPS vs Plex Cloud
+- No necesitas Plex Pass.
+- El escaneo de directorios es muuucho más rápido porque es como si tuvieras plex instalado en local.
+- Posiblidad de instalar plexpy para monitorizar tu plex server, así como otros servicios.
+
+La mayor desventaja que veo a plex en vps es que si quieres transcodificar contenido vas a tener que tirar a por un servidor de mínimo 15-20€ / mes.
 
 
 ## VPS y SSH
-En mi caso voy a utilizar un VPS pequeño y barato de Scaleway (https://www.scaleway.com 2.99€) ya que voy a hacer direct play de todo el contenido, pero tened en cuenta que si alguno de vuestros users va a necesitar transcoding, este server no va a poder con ello. Necesitaréis mínimo 4 cores, se recomienda una puntuación mínima de 2000 en passmark para un sólo transcoding a 1080p.
+En mi caso voy a utilizar un VPS pequeño y barato de Scaleway (https://www.scaleway.com 2.99€) ya que voy a hacer direct play de todo el contenido, pero tened en cuenta que si alguno de vuestros users va a necesitar transcoding, este server no va a poder con ello. Necesitaréis mínimo 4 cores, se recomienda una puntuación de 2000 en passmark para un sólo transcoding a 1080p.
 
 Otras opciones económicas: https://www.kimsufi.com/es/servidores.xml 
 
@@ -61,7 +67,7 @@ mkdir /home/plexcloud
 rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud/ &
 ```
 
-Si todo ha ido bien, listado el directorio deberéis ver vuestro contenido del drive.
+Si todo ha ido bien, listando el directorio deberéis ver vuestro contenido del drive.
 ```
 ls /home/plexcloud
 ```
@@ -74,8 +80,8 @@ Vamos a instalar el plex media server y configurarlo.
 En la sección de Downloads de su web (https://www.plex.tv/es/downloads/), copiamos el enlace de la versión de linux, en mi caso Ubuntu 64 bits.
 Descargamos e instalamos.
 ```
-wget enlacecopiado
-dkpg -i archivodescargado
+wget https://downloads.plex.tv/plex-media-server/1.5.6.3790-4613ce077/plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
+dkpg -i plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
 ```
 
 Para acceder por primera vez, como entorno gráfico en linux y por tanto no hay navegador, debemos hacer un tunneling por ssh para enlazar nuestro localhost con el VPS.
@@ -191,14 +197,14 @@ Accedemos a la interfaz web a través de http://ipvps:9091.
 ## uso de rclone
 Podemos darle otros usos interesantes a rclone a parte de para montar la unidad de Google Drive.
 
-- Mover automáticamente los archivos descargados de transmission a una carpeta del drive.
+### Mover automáticamente los archivos descargados de transmission a una carpeta del drive.
 
 Lo haremos con un script muy sencillito que os he dejado en el respositorio y podéis modificar a vuestra gusto para cambiar las rutas de las carpetas, por ejemplo.
 
 Descargamos el script en nuestro /home/ por ejemplo y lo añadimos al crontab para que se ejecute cada 15min.
 
 ```
-wget urlscript
+wget https://github.com/titelas/plexvps/blob/master/rclonemv.sh
 export EDITOR=nano
 crontab -e
 ```
@@ -232,7 +238,7 @@ Pegamos estas líneas y guardamos:
 ```
 
 
-- Copiarte archivos de una carpeta compartida de Google Drive.
+### Copiarte archivos de una carpeta compartida de Google Drive.
 
 Primero debes añadirte esa carpeta a tu unidad de drive, desde la web.
 
