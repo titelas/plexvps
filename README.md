@@ -185,6 +185,8 @@ mkdir /var/lib/transmission-daemon/incomplete
 chown debian-tranmission:debian-tranmission /var/lib/transmission-daemon/incomplete
 ```
 
+Por defecto, el directorio de descargas está en '/var/lib/transmission-daemon/incomplete' pero podéis modificarlo también.
+
 Arrancamos de nuevo el servicio
 ```
 service plexmediaserver start
@@ -199,9 +201,9 @@ Podemos darle otros usos interesantes a rclone a parte de para montar la unidad 
 
 ### Mover automáticamente los archivos descargados de transmission a una carpeta del drive.
 
-Lo haremos con un script muy sencillito que os he dejado en el respositorio y podéis modificar a vuestra gusto para cambiar las rutas de las carpetas, por ejemplo.
+Lo haremos con un script muy sencillito que os he dejado en el respositorio y podéis modificar a vuestro gusto para cambiar las rutas de las carpetas.
 
-Descargamos el script en nuestro /home/ por ejemplo y lo añadimos al crontab para que se ejecute cada 15min.
+Descargamos el script en nuestro /home/, por ejemplo, y lo añadimos al crontab para que se ejecute cada 15min.
 
 ```
 wget https://github.com/titelas/plexvps/blob/master/rclonemv.sh
@@ -242,7 +244,7 @@ Pegamos estas líneas y guardamos:
 
 Primero debes añadirte esa carpeta a tu unidad de drive, desde la web.
 
-Ahora lo que haremos será volver a crear de nuevo la unidad con rclone pero dándole otro nombre. Para ello repetimos este proceso comentado arriba.
+Ahora lo que haremos será volver a crear de nuevo la unidad con rclone pero dándole otro nombre para simular la transferencia de cuenta a cuenta de drive. Para ello repetimos este proceso comentado arriba.
 
 ```
 rclone config
@@ -266,3 +268,8 @@ rclone copy -v -u --stats 30s --transfers 10 plexcloud2:ruta/hasta/los/archivos 
 ```
 
 Respecto al parámetro --transfers, indica el número de transferencias simultáneas que podéis realizar a la vez. Deberíais alcanzar mínimo los 30MB/s sin mayor problema, podéis ir jugando con ese valor (10) para maximizar la velocidad. Otra idea es abrir otra sesión de ssh y tener 2 procesos a la vez copiando datos.
+
+## Enlacés de interés
+- XML no transcoding -> https://forums.plex.tv/discussion/260803/unnecessary-transcoding-of-h264
+- Instalación plexpy -> https://www.htpcbeginner.com/install-plexpy-on-ubuntu/
+- rclone a 300MB/s con google cloud platform -> https://docs.google.com/document/d/17sOynlIKO5cgdzir4xmxzKHLGglKGGtT4zNsBklvSnQ/edit
