@@ -84,7 +84,7 @@ wget https://downloads.plex.tv/plex-media-server/1.5.6.3790-4613ce077/plexmedias
 dkpg -i plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
 ```
 
-Para acceder por primera vez, como entorno gráfico en linux y por tanto no hay navegador, debemos hacer un tunneling por ssh para enlazar nuestro localhost con el VPS.
+Para acceder por primera vez, como estamos sin entorno gráfico en linux y por tanto no hay navegador, debemos hacer un tunneling por ssh para enlazar nuestro localhost con el VPS.
 ```
 ssh root@ipvps -L 8888:localhost:32400
 ```
@@ -102,14 +102,14 @@ A partir de ahora, podéis acceder a vuestro servidor plex mediante http://ipvps
 
 En los clientes/dispositivos que vayáis a utilizar hay que tener en cuenta un par de consideraciones respecto a la calidad de vídeo y los subtítulos para evitar la transcodificación.
 
-Os dejo a ajustar en estas imágenes http://imgur.com/a/HoWyR.
+Os dejo los parámetros a ajustar en estas imágenes http://imgur.com/a/HoWyR.
 
 
 Respecto al servidor, en mi caso detecté que estaba haciendo transcoding el audio ac3 5.1 a dispositivos iOS. 
 
 Encontré una solución en el foro de plex. Hay que incluir los dos XML (iOS.xml y tvOS.xml) en el directorio Profiles.
 ```
-wget iOS.xml tvOS.xml
+wget https://github.com/titelas/plexvps/blob/master/iOS.xml https://github.com/titelas/plexvps/blob/master/tvOS.xml
 mkdir /var/lib/plexmediaserver/Application Support/Plex Media Server/Profiles
 cp iOS.xml tvOS.xml /var/lib/plexmediaserver/Application Support/Plex Media Server/Profiles
 ```
