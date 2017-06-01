@@ -37,17 +37,23 @@ sudo mkdir -p /usr/local/share/man/man1
 sudo cp rclone.1 /usr/local/share/man/man1/
 sudo mandb 
 ```
+
 Entramos en la configuración.
 ```
 rclone config
 ```
 N: creamos una nueva unidad.
 
-7: del tipo Google Drive.
+7: tipo Google Drive.
+
+Le damos un nombre, por ejemplo: plexcloud.
 
 Dejamos client id y client secret en blanco.
 
-En el siguiente paso le damos a N y nos dará una url que debemos pegar en nuestro navegador (en tu ordenador local), loguearnos con nuestra cuenta de Google Drive que vayamos a utilizar y copiar el token que nos da y pegarlo.
+En el siguiente paso le damos a No (N) y nos dará una url que debemos pegar en nuestro navegador (en tu ordenador local), loguearnos con nuestra cuenta de Google Drive que vayamos a utilizar y copiar el token que nos da y pegarlo.
+
+Nos preguntará si esta todo bien y le decimos que sí (Y).
+
 
 Creamos una carpeta y montamos la unidad en ella.
 ```
@@ -174,7 +180,83 @@ chown debian-tranmission:debian-tranmission /var/lib/transmission-daemon/incompl
 ```
 
 Arrancamos de nuevo el servicio
-
+```
 service plexmediaserver start
+```
 
 Accedemos a la interfaz web a través de http://ipvps:9091.
+
+
+
+## uso de rclone
+Podemos darle otros usos interesantes a rclone a parte de para montar la unidad de Google Drive.
+
+- Mover automáticamente los archivos descargados de transmission a una carpeta del drive.
+
+Lo haremos con un script muy sencillito que os he dejado en el respositorio y podéis modificar a vuestra gusto para cambiar las rutas de las carpetas, por ejemplo.
+
+Descargamos el script en nuestro /home/ por ejemplo y lo añadimos al crontab para que se ejecute cada 15min.
+
+```
+wget urlscript
+export EDITOR=nano
+crontab -e
+```
+
+Pegamos estas líneas y guardamos:
+
+```
+# Edit this file to introduce tasks to be run by cron.
+#
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+#
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').#
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+#
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+#
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+#
+# For more information see the manual pages of crontab(5) and cron(8)
+#
+# m h  dom mon dow   command
+*/15 * * * * /home/rclonemv.sh
+```
+
+
+- Copiarte archivos de una carpeta compartida de Google Drive.
+
+Primero debes añadirte esa carpeta a tu unidad de drive, desde la web.
+
+Ahora lo que haremos será volver a crear de nuevo la unidad con rclone pero dándole otro nombre. Para ello repetimos este proceso comentado arriba.
+
+```
+rclone config
+```
+N: creamos una nueva unidad.
+
+7: tipo Google Drive.
+
+Le damos un nombre DISTINTO, por ejemplo: plexcloud2.
+
+Dejamos client id y client secret en blanco.
+
+En el siguiente paso le damos a No (N) y nos dará una url que debemos pegar en nuestro navegador (en tu ordenador local), loguearnos con nuestra cuenta de Google Drive que vayamos a utilizar y copiar el token que nos da y pegarlo.
+
+Nos preguntará si esta todo bien y le decimos que sí (Y).
+
+
+Para mover pasarnos archivos de una carpeta a otra lo hacemos con el siguiente comando.
+```
+rclone copy -v -u --stats 30s --transfers 10 plexcloud2:ruta/hasta/los/archivos plexcloud:donde/lo/queramos/copiar
+```
+
+Respecto al parámetro --transfers, indica el número de transferencias simultáneas que podéis realizar a la vez. Deberíais alcanzar mínimo los 30MB/s sin mayor problema, podéis ir jugando con ese valor (10) para maximizar la velocidad. Otra idea es abrir otra sesión de ssh y tener 2 procesos a la vez copiando datos.
