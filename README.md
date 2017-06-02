@@ -15,7 +15,13 @@ En mi caso voy a utilizar un VPS pequeño y barato de Scaleway (https://www.scal
 
 Otras opciones económicas: https://www.kimsufi.com/es/servidores.xml 
 
+
 Cuando tengamos el vps arrancado, tenemos que entrar por ssh. Seguramente en el panel nos indiquen cómo hacerlo pero lo normal es abrir un sesión en PuTTy (Windows) o Terminal (Mac OS).
+
+En el caso de scaleway, debéis crear una ssh key antes de acceder. Aquí lo explican perfectamente: https://www.scaleway.com/docs/configure-new-ssh-key/
+
+Accederemos con:
+
 ```
 ssh root@ipvps
 ```
@@ -60,6 +66,10 @@ En el siguiente paso le damos a No (N) y nos dará una url que debemos pegar en 
 
 Nos preguntará si esta todo bien y le decimos que sí (Y).
 
+Nos hará falta instalar fuse también, antes de montar la unidad.
+```
+apt-get install fuse
+```
 
 Creamos una carpeta y montamos la unidad en ella.
 ```
@@ -81,7 +91,7 @@ En la sección de Downloads de su web (https://www.plex.tv/es/downloads/), copia
 Descargamos e instalamos.
 ```
 wget https://downloads.plex.tv/plex-media-server/1.5.6.3790-4613ce077/plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
-dkpg -i plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
+dpkg -i plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
 ```
 
 Para acceder por primera vez, como estamos sin entorno gráfico en linux y por tanto no hay navegador, debemos hacer un tunneling por ssh para enlazar nuestro localhost con el VPS.
