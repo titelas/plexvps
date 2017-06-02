@@ -163,7 +163,7 @@ WantedBy=multi-user.target
 
 Guardamos con Ctrl + X y Yes (Y).
 
-Ya podremos acceder a la interfaz de plexpy y configurarlo a traves de http://ipvps:8081
+Ya podremos acceder a la interfaz de plexpy y configurarlo a traves de http://ipvps:8181
 
 
 
