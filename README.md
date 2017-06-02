@@ -206,7 +206,7 @@ Accedemos a la interfaz web a través de http://ipvps:9091.
 
 
 
-## uso de rclone
+## Uso de rclone
 Podemos darle otros usos interesantes a rclone a parte de para montar la unidad de Google Drive.
 
 ### Mover automáticamente los archivos descargados de transmission a una carpeta del drive.
@@ -285,4 +285,5 @@ Respecto al parámetro --transfers, indica el número de transferencias simultá
 - rclone a 300MB/s con google cloud platform -> https://docs.google.com/document/d/17sOynlIKO5cgdzir4xmxzKHLGglKGGtT4zNsBklvSnQ/edit
 
 ### Contacto
-http://t.me/titelas
+Telegram: http://t.me/titelas
+Pagarme un café: https://paypal.me/titelas
