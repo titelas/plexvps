@@ -120,7 +120,7 @@ Respecto al servidor, en mi caso detecté que estaba haciendo transcoding el aud
 Encontré una solución en el foro de plex. Hay que incluir los dos XML (iOS.xml y tvOS.xml) en el directorio Profiles.
 ```
 wget https://github.com/titelas/plexvps/blob/master/iOS.xml https://github.com/titelas/plexvps/blob/master/tvOS.xml
-mkdir /var/lib/plexmediaserver/Application Support/Plex Media Server/Profiles
+mkdir /var/lib/plexmediaserver/Library/Application\ Support/Plex\ Media\ Server/Profiles
 cp iOS.xml tvOS.xml /var/lib/plexmediaserver/Application Support/Plex Media Server/Profiles
 ```
 
