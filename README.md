@@ -82,6 +82,39 @@ Si todo ha ido bien, listando el directorio deberéis ver vuestro contenido del 
 ls /home/plexcloud
 ```
 
+Para que se monte la unidad sola cuando reiniciamos el sistema tenemos que editar el crontab.
+```
+export EDITOR=nano
+crontab -e
+```
+
+Pegamos estas líneas y guardamos:
+
+```
+# Edit this file to introduce tasks to be run by cron.
+#
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+#
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').#
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+#
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+#
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+#
+# For more information see the manual pages of crontab(5) and cron(8)
+#
+# m h  dom mon dow   command
+@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
+```
 
 
 ## Servidor plex
@@ -136,7 +169,7 @@ sudo apt-get install git-core
 cd /opt
 sudo git clone https://github.com/JonnyWong16/plexpy.git
 cd plexpy
-python PlexPy.py
+python PlexPy.py &
 ```
 
 Ahora vamos crearlo como servicio y hacer que arranque por defecto con el sistema.
@@ -217,12 +250,10 @@ Descargamos el script en nuestro /home/, por ejemplo, y lo añadimos al crontab 
 
 ```
 wget https://github.com/titelas/plexvps/blob/master/rclonemv.sh
-export EDITOR=nano
 crontab -e
 ```
 
-Pegamos estas líneas y guardamos:
-
+Añadimos la línea después de lo que ya incluimos arriba. Tiene que quedar así:
 ```
 # Edit this file to introduce tasks to be run by cron.
 #
@@ -246,6 +277,7 @@ Pegamos estas líneas y guardamos:
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
+@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
 */15 * * * * /home/rclonemv.sh
 ```
 
@@ -286,4 +318,4 @@ Respecto al parámetro --transfers, indica el número de transferencias simultá
 
 ### Contacto
 Telegram: http://t.me/titelas
-Pagarme un café: https://paypal.me/titelas
+Invitame a un café: https://paypal.me/titelas
