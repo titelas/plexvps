@@ -223,7 +223,7 @@ Instalamos transmission para poder descargar torrents mediante el VPS sin tener 
 
 Instalación y configuración.
 ```
-sudo apt-get install tranmission-daemon
+sudo apt-get install transmission-daemon
 sudo service tranmission-daemon stop
 sudo nano /var/lib/transmission-daemon/.config/transmission-daemon/settings.json
 ```
