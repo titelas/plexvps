@@ -56,9 +56,9 @@ rclone config
 ```
 N: creamos una nueva unidad.
 
-7: tipo Google Drive.
-
 Le damos un nombre, por ejemplo: plexcloud.
+
+7: tipo Google Drive.
 
 Dejamos client id y client secret en blanco.
 
@@ -128,6 +128,15 @@ dpkg -i plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
 ```
 
 Para acceder por primera vez, como estamos sin entorno gráfico en linux y por tanto no hay navegador, debemos hacer un tunneling por ssh para enlazar nuestro localhost con el VPS.
+
+Aquí haremos dos distinciones dependiendo de si estamos en Windows o Linux/Mac OS.
+
+- Windows
+
+Hay que configurar PuTTy para hacer la conexión por el puerto en concreto, tendría que quedaros como en la siguiente imagen http://imgur.com/a/jceaI
+
+- Linux/Mac OS
+
 ```
 ssh root@ipvps -L 8888:localhost:32400
 ```
@@ -293,9 +302,9 @@ rclone config
 ```
 N: creamos una nueva unidad.
 
-7: tipo Google Drive.
-
 Le damos un nombre DISTINTO, por ejemplo: plexcloud2.
+
+7: tipo Google Drive.
 
 Dejamos client id y client secret en blanco.
 
@@ -311,12 +320,13 @@ rclone copy -v -u --stats 30s --transfers 10 plexcloud2:ruta/hasta/los/archivos 
 
 Respecto al parámetro --transfers, indica el número de transferencias simultáneas que podéis realizar a la vez. Deberíais alcanzar mínimo los 30MB/s sin mayor problema, podéis ir jugando con ese valor (10) para maximizar la velocidad. Otra idea es abrir otra sesión de ssh y tener 2 procesos a la vez copiando datos.
 
+## Contacto
+- Telegram: http://t.me/titelas
+- Si te sirvió y me quieres **invitar a un café**: https://paypal.me/titelas
+
 ## Enlacés de interés
-- XML no transcoding -> https://forums.plex.tv/discussion/260803/unnecessary-transcoding-of-h264
-- Instalación plexpy -> https://www.htpcbeginner.com/install-plexpy-on-ubuntu/
-- rclone a 300MB/s con google cloud platform -> https://docs.google.com/document/d/17sOynlIKO5cgdzir4xmxzKHLGglKGGtT4zNsBklvSnQ/edit
+- [XML para no transcoding](https://forums.plex.tv/discussion/260803/unnecessary-transcoding-of-h264)
+- [Instalación plexpy](https://www.htpcbeginner.com/install-plexpy-on-ubuntu/)
+- [rclone a ~300MB/s con google cloud platform](https://docs.google.com/document/d/17sOynlIKO5cgdzir4xmxzKHLGglKGGtT4zNsBklvSnQ/edit)
 
-### Contacto
-Telegram: http://t.me/titelas
 
-Invitame a un café: https://paypal.me/titelas
