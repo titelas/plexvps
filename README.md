@@ -206,7 +206,7 @@ Guardamos con Ctrl + X y Yes (Y).
 
 Activamos el servicio y arrancamos.
 ```
-sudo service plexpy start
+sudo systemctl enable plexpy
 sudo service plexpy start
 ```
 
