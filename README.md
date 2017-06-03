@@ -202,8 +202,13 @@ Group=root
 [Install]
 WantedBy=multi-user.target
 ``` 
-
 Guardamos con Ctrl + X y Yes (Y).
+
+Activamos el servicio y arrancamos.
+```
+sudo service plexpy start
+sudo service plexpy start
+```
 
 Ya podremos acceder a la interfaz de plexpy y configurarlo a traves de http://ipvps:8181
 
