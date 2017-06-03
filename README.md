@@ -122,9 +122,12 @@ Vamos a instalar el plex media server y configurarlo.
 
 En la sección de Downloads de su web (https://www.plex.tv/es/downloads/), copiamos el enlace de la versión de linux, en mi caso Ubuntu 64 bits. Podéis mirar si hay una versión más moderna disponible o incluso instalar la versión de Plex Pass que siempre es algo más avanzada.
 
-Descargamos e instalamos.
+Ponemos a descargar y esperamos a que acabe.
 ```
 wget https://downloads.plex.tv/plex-media-server/1.5.6.3790-4613ce077/plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
+```
+Instalamos.
+```
 dpkg -i plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
 ```
 
@@ -142,7 +145,7 @@ Hay que configurar PuTTy para hacer la conexión por el puerto en concreto, tend
 ssh root@ipvps -L 8888:localhost:32400
 ```
 
-Ahora accedemos en nuestro navegador a http://localhost:8888 y plex debería darnos la bienvenida para proceder a su configuración.
+Ahora accedemos en nuestro navegador a http://localhost:8888/web y plex debería darnos la bienvenida para proceder a su configuración.
 Añadimos las bibliotecas que queramos apuntando al contenido del drive, que detecta como una carpeta más.
 
 En principio Plex debería empezar a escanear todo el contenido de los directorios que le hayamos indicado y una vez acabe ya está disponible par utilizarlo en cualquier dispositivo.
