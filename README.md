@@ -120,7 +120,8 @@ Pegamos estas líneas y guardamos:
 ## Servidor plex
 Vamos a instalar el plex media server y configurarlo.
 
-En la sección de Downloads de su web (https://www.plex.tv/es/downloads/), copiamos el enlace de la versión de linux, en mi caso Ubuntu 64 bits.
+En la sección de Downloads de su web (https://www.plex.tv/es/downloads/), copiamos el enlace de la versión de linux, en mi caso Ubuntu 64 bits. Podéis mirar si hay una versión más moderna disponible o incluso instalar la versión de Plex Pass que siempre es algo más avanzada.
+
 Descargamos e instalamos.
 ```
 wget https://downloads.plex.tv/plex-media-server/1.5.6.3790-4613ce077/plexmediaserver_1.5.6.3790-4613ce077_amd64.deb
