@@ -267,7 +267,7 @@ Lo haremos con un script muy sencillito que os he dejado en el respositorio y po
 Descargamos el script en nuestro /home/, por ejemplo, y lo añadimos al crontab para que se ejecute cada 15min.
 
 ```
-wget https://github.com/titelas/plexvps/blob/master/rclonemv.sh
+wget https://raw.githubusercontent.com/titelas/plexvps/master/rclonemv.sh
 crontab -e
 ```
 
