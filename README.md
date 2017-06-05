@@ -224,7 +224,7 @@ Instalamos transmission para poder descargar torrents mediante el VPS sin tener 
 Instalación y configuración.
 ```
 sudo apt-get install transmission-daemon
-sudo service tranmission-daemon stop
+sudo service transmission-daemon stop
 sudo nano /var/lib/transmission-daemon/.config/transmission-daemon/settings.json
 ```
 
@@ -243,14 +243,14 @@ Guardamos con Ctrl+X -> Y.
 Creamos el directorio con y le damos el propietario a user de transmission:.
 ```
 mkdir /var/lib/transmission-daemon/incomplete
-chown debian-tranmission:debian-tranmission /var/lib/transmission-daemon/incomplete
+chown debian-transmission:debian-transmission /var/lib/transmission-daemon/incomplete
 ```
 
 Por defecto, el directorio de descargas está en '/var/lib/transmission-daemon/incomplete' pero podéis modificarlo también.
 
 Arrancamos de nuevo el servicio
 ```
-service plexmediaserver start
+service transmission-daemon start
 ```
 
 Accedemos a la interfaz web a través de http://ipvps:9091.
