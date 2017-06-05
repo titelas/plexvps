@@ -268,6 +268,7 @@ Descargamos el script en nuestro /home/, por ejemplo, y lo añadimos al crontab 
 
 ```
 wget https://raw.githubusercontent.com/titelas/plexvps/master/rclonemv.sh
+chmod 755 rclonemv.sh
 crontab -e
 ```
 
