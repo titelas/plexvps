@@ -305,22 +305,14 @@ Añadimos la línea después de lo que ya incluimos arriba. Tiene que quedar as�
 
 Primero debes añadirte esa carpeta a tu unidad de drive, desde la web.
 
-Ahora lo que haremos será volver a crear de nuevo la unidad con rclone pero dándole otro nombre para simular la transferencia de cuenta a cuenta de drive. Para ello repetimos este proceso comentado arriba.
+Ahora lo que haremos será duplicar la unidad con rclone para simular la transferencia de cuenta a cuenta de drive. Para ello, abrimos la configuración.
 
 ```
 rclone config
 ```
-N: creamos una nueva unidad.
+C: copiamos una unidad.
 
-Le damos un nombre DISTINTO, por ejemplo: plexcloud2.
-
-7: tipo Google Drive.
-
-Dejamos client id y client secret en blanco.
-
-En el siguiente paso le damos a No (N) y nos dará una url que debemos pegar en nuestro navegador (en tu ordenador local), loguearnos con nuestra cuenta de Google Drive que vayamos a utilizar y copiar el token que nos da y pegarlo.
-
-Nos preguntará si esta todo bien y le decimos que sí (Y).
+Seleccionamos el número de la unidad que queramos duplicar y le damos un nombre distinto, por ejemplo: plexcloud2.
 
 
 Para mover pasarnos archivos de una carpeta a otra lo hacemos con el siguiente comando.
