@@ -117,7 +117,7 @@ Pegamos estas líneas y guardamos:
 ```
 
 ## plexdrive (alternativa rclone)
-Para liberías grandes es recomendable montar la unidad con plexdrive en lugar de rclone. Plexdrive cachea el contenido de tu unidad para no realizar un exceso de peticiones a la API de googl drive y de esta forma se evitar los baneos.
+Para liberías grandes es recomendable montar la unidad con plexdrive en lugar de rclone. Plexdrive cachea el contenido de tu unidad para no realizar un exceso de peticiones a la API de google drive y de esta forma evitar los baneos.
 
 Actualmente están en la v4.0 que requiere una base de datos mongoDB, por lo tanto, es lo primero que instalaremos.
 
