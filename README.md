@@ -116,6 +116,43 @@ Pegamos estas líneas y guardamos:
 @reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
 ```
 
+## plexdrive (alternativa rclone)
+Para liberías grandes es recomendable montar la unidad con plexdrive en lugar de rclone. Plexdrive cachea el contenido de tu unidad para no realizar un exceso de peticiones a la API de googl drive y de esta forma se evitar los baneos.
+
+Actualmente están en la v4.0 que requiere una base de datos mongoDB, por lo tanto, es lo primero que instalaremos.
+
+```
+apt-get install mongodb
+```
+Descargamos la versión más actual de su web: https://github.com/dweidenfeld/plexdrive/releases (versión amd64).
+```
+mkdir /home/plexdrive
+cd /home/plexdrive
+wget https://github.com/dweidenfeld/plexdrive/releases/download/4.0.0/plexdrive-linux-amd64
+chown root:root /home/plexdrive/plexdrive
+chown 755 /home/plexdrive/plexdrive
+```
+
+Ahora vamos a obtener nuestro client id y client secret de la API de google. Para ello hacemos lo siguiente:
+- Nos logueamos en [Google API Console](https://console.developers.google.com/). 
+- Creamos un nuevo proyecto.
+- Vamos a Overview -> Google APIs, Google Apps APIs, Drive API y Enable.
+- Vamos a Credentials en el panel izquierdo y Create Credentials, OAuth client ID.
+- En tipo de aplicación seleccionamos Other y Create.
+- Nos dara un client id y cliente secret. Lo copiamos y guardamos.
+
+Instalamos screen para dejar el proceso de montaje corriendo en segundo plano y montamos con las opciones por defecto.
+```
+apt-get install screen
+screen -S plexdrive
+mkdir /home/plexcloud
+plexdrive -m /mnt/plexdrive
+```
+Nos pedirá los datos que hemos obtenido antes, client id, client secret y nos da una url para loguearnos con nuestra cuenta de drive. Esto nos devolverá una clave, copiamos y la pegamos en la consola.
+
+Plexdrive empezará a cachear todo el contenido de vuestro plex y puede que tarde bastante, deberíamos dejarle hacer hasta que ponga que ha acabado o haya parado la actividad.
+
+Para salir de la screen, simplemente hacemos Control + A + D. Si queremos volver a ella podemos hacerlo con: screen -r plexdrive.
 
 ## Servidor plex
 Vamos a instalar el plex media server y configurarlo.
