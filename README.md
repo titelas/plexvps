@@ -129,6 +129,7 @@ Descargamos la versión más actual de su web: https://github.com/dweidenfeld/pl
 mkdir /home/plexdrive
 cd /home/plexdrive
 wget https://github.com/dweidenfeld/plexdrive/releases/download/4.0.0/plexdrive-linux-amd64
+mv plexdrive-linux-amd64 plexdrive
 chown root:root /home/plexdrive/plexdrive
 chown 755 /home/plexdrive/plexdrive
 ```
