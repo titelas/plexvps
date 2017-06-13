@@ -148,7 +148,7 @@ apt-get install screen
 screen -S plexdrive
 mkdir /home/plexcloud
 cd /home/plexdrive
-./plexdrive -m /home/plexcloud
+./plexdrive -m localhost /home/plexcloud
 ```
 Nos pedirá los datos que hemos obtenido antes, client id, client secret y nos da una url para loguearnos con nuestra cuenta de drive. Esto nos devolverá una clave, copiamos y la pegamos en la consola.
 
