@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Client name="Chromecast">
+  <!-- Author: Plex Inc. -->
+  <TranscodeTargets>
+    <VideoProfile protocol="http" container="mkv" codec="h264" audioCodec="aac,mp3,ac3,dts" context="streaming" />
+    <MusicProfile container="mkv" codec="opus" />
+    <PhotoProfile container="jpeg" />
+    <SubtitleProfile container="ass" codec="ass" />
+  </TranscodeTargets>
+  <CodecProfiles>
+    <VideoCodec name="*">
+      <Limitations>
+        <UpperBound name="video.width" value="5000" isRequired="true" />
+        <UpperBound name="video.height" value="5000" isRequired="true" />
+        <UpperBound name="video.bitDepth" value="500" />
+        <UpperBound name="video.level" value="500" />
+      </Limitations>
+    </VideoCodec>
+    <VideoAudioCodec name="*">
+      <Limitations>
+        <UpperBound name="audio.channels" value="6" />
+      </Limitations>
+    </VideoAudioCodec>
+  </CodecProfiles>
+</Client>
