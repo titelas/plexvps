@@ -130,8 +130,8 @@ mkdir /home/plexdrive
 cd /home/plexdrive
 wget https://github.com/dweidenfeld/plexdrive/releases/download/4.0.0/plexdrive-linux-amd64
 mv plexdrive-linux-amd64 plexdrive
-chown root:root /home/plexdrive/plexdrive
-chmod 755 /home/plexdrive/plexdrive
+chown root:root /home/plexdrive
+chmod 755 /home/plexdrive
 ```
 
 Ahora vamos a obtener nuestro client id y client secret de la API de google. Para ello hacemos lo siguiente:
