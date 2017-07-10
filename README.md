@@ -362,8 +362,8 @@ rclone copy -v -u --stats 30s --transfers 10 plexcloud2:ruta/hasta/los/archivos 
 Respecto al parámetro --transfers, indica el número de transferencias simultáneas que podéis realizar a la vez. Deberíais alcanzar mínimo los 30MB/s sin mayor problema, podéis ir jugando con ese valor (10) para maximizar la velocidad. Otra idea es abrir otra sesión de ssh y tener 2 procesos a la vez copiando datos.
 
 ## Contacto
-- Telegram: http://t.me/titelas
-- Si te sirvió y me quieres **invitar a un café**: https://paypal.me/titelas
+- Soporte a cambio de invitación a un café en Telegram: http://t.me/titelas
+- Donaciones: https://paypal.me/titelas
 
 ## Enlacés de interés
 - [XML para no transcoding](https://forums.plex.tv/discussion/260803/unnecessary-transcoding-of-h264)
