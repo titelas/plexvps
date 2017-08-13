@@ -150,6 +150,12 @@ mkdir /home/plexcloud
 cd /home/plexdrive
 ./plexdrive -o allow_other -v 3 -m localhost /home/plexcloud
 ```
+
+En la v5 de plexdrive han cambiado ligeramente el comando de ejecución.
+```
+./plexdrive mount -c /home/plexdrive/.plexdrive -o allow_other /home/plexcloud
+```
+
 Nos pedirá los datos que hemos obtenido antes, client id, client secret y nos da una url para loguearnos con nuestra cuenta de drive. Esto nos devolverá una clave, copiamos y la pegamos en la consola.
 
 Plexdrive empezará a cachear todo el contenido de vuestro plex y puede que tarde bastante, deberíamos dejarle hacer hasta que ponga que ha acabado o haya parado la actividad.
