@@ -26,31 +26,57 @@ Accederemos con:
 ssh root@ipvps
 ```
 
+## plexdrive (alternativa rclone)
+Para liberías grandes es recomendable montar la unidad con plexdrive en lugar de rclone. Plexdrive cachea el contenido de tu unidad para no realizar un exceso de peticiones a la API de google drive y de esta forma evitar los baneos.
+
+NOTA: tras probar la v4 y la v5, me quedo con la 4 ya que me ha dado un mejor rendimiento en general. No obstante, en su github tenéis las instrucciones para instalar la v5. Utiliza otro sistema de base de datos y el comando de montaje cambia ligeramente.
+
+Instalamos la base de datos de MongoDB.
+```
+apt-get install mongodb
+```
+Descargamos la versión más actual de su web: https://github.com/dweidenfeld/plexdrive/releases (versión amd64).
+```
+mkdir /home/plexdrive
+cd /home/plexdrive
+wget https://github.com/dweidenfeld/plexdrive/releases/download/4.0.0/plexdrive-linux-amd64
+mv plexdrive-linux-amd64 plexdrive
+chown root:root /home/plexdrive/plexdrive
+chmod 755 /home/plexdrive/plexdrive
+```
+
+Ahora vamos a obtener nuestro client id y client secret de la API de google. Para ello hacemos lo siguiente:
+- Nos logueamos en [Google API Console](https://console.developers.google.com/). 
+- Creamos un nuevo proyecto.
+- Vamos a Overview -> Google APIs, Google Apps APIs, Drive API y Enable.
+- Vamos a Credentials en el panel izquierdo y Create Credentials, OAuth client ID.
+- En tipo de aplicación seleccionamos Other y Create.
+- Nos dara un client id y client secret. Lo copiamos y guardamos.
+
+Instalamos screen para dejar el proceso de montaje corriendo en segundo plano y montamos con las opciones por defecto.
+```
+apt-get install screen
+screen -S plexdrive
+mkdir /home/plexcloud
+cd /home/plexdrive
+./plexdrive -o allow_other -v 3 -m localhost /home/plexcloud
+```
+
+Plexdrive empezará a cachear todo el contenido de vuestro plex y puede que tarde bastante, deberíamos dejarle hacer hasta que ponga que ha acabado o haya parado la actividad.
+
+Para salir de la screen, simplemente hacemos Control + A + D. Si queremos volver a ella podemos hacerlo con: screen -r plexdrive.
+
 
 
 ## rclone
-Utilizaremos rclone para montar Google Drive como  unidad de disco en nuestro sistema de tal forma que Plex pueda leer directamente de ahí el contenido. 
+Utilizaremos rclone para montar Google Drive como unidad de disco en nuestro sistemaRecomiendo usar plexdrive para enlazar con Plex y rclone para hacer tareas de copia, subida y demás. Aun así, rclone tiene ahora una nueva opción para cachear el contenido de una unidad que podéis probar.
 
-Descargamos la versión más actual de su web y lo descomprimimos.
+Descargarmos rclone y lo configuramos ejecutando este script realizado por el propio developer.
 ```
-curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
-unzip rclone-current-linux-amd64.zip
-cd rclone-*-linux-amd64
-```
-Copiamos el binario.
-```
-sudo cp rclone /usr/bin/
-sudo chown root:root /usr/bin/rclone
-sudo chmod 755 /usr/bin/rclone
-```
-Instalamos manpage.
-```
-sudo mkdir -p /usr/local/share/man/man1
-sudo cp rclone.1 /usr/local/share/man/man1/
-sudo mandb 
+curl https://rclone.org/install.sh | sudo bash
 ```
 
-Entramos en la configuración.
+Accedemos a la configuración.
 ```
 rclone config
 ```
@@ -58,7 +84,7 @@ N: creamos una nueva unidad.
 
 Le damos un nombre, por ejemplo: plexcloud.
 
-7: tipo Google Drive.
+11: Google Drive (revisa el número, puede que haya cambiado con la versión de rclone)
 
 Dejamos client id y client secret en blanco.
 
@@ -74,7 +100,7 @@ apt-get install fuse
 Creamos una carpeta y montamos la unidad en ella.
 ```
 mkdir /home/plexcloud
-rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud/ &
+rclone mount --allow-other --allow-non-empty -v 3 plexcloud: /home/plexcloud &
 ```
 
 Si todo ha ido bien, listando el directorio deberéis ver vuestro contenido del drive.
@@ -113,54 +139,9 @@ Pegamos estas líneas y guardamos:
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
-@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
+@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v 3 plexcloud: /home/plexcloud &
 ```
 
-## plexdrive (alternativa rclone)
-Para liberías grandes es recomendable montar la unidad con plexdrive en lugar de rclone. Plexdrive cachea el contenido de tu unidad para no realizar un exceso de peticiones a la API de google drive y de esta forma evitar los baneos.
-
-Actualmente están en la v4.0 que requiere una base de datos mongoDB, por lo tanto, es lo primero que instalaremos.
-
-```
-apt-get install mongodb
-```
-Descargamos la versión más actual de su web: https://github.com/dweidenfeld/plexdrive/releases (versión amd64).
-```
-mkdir /home/plexdrive
-cd /home/plexdrive
-wget https://github.com/dweidenfeld/plexdrive/releases/download/4.0.0/plexdrive-linux-amd64
-mv plexdrive-linux-amd64 plexdrive
-chown root:root /home/plexdrive/plexdrive
-chmod 755 /home/plexdrive/plexdrive
-```
-
-Ahora vamos a obtener nuestro client id y client secret de la API de google. Para ello hacemos lo siguiente:
-- Nos logueamos en [Google API Console](https://console.developers.google.com/). 
-- Creamos un nuevo proyecto.
-- Vamos a Overview -> Google APIs, Google Apps APIs, Drive API y Enable.
-- Vamos a Credentials en el panel izquierdo y Create Credentials, OAuth client ID.
-- En tipo de aplicación seleccionamos Other y Create.
-- Nos dara un client id y client secret. Lo copiamos y guardamos.
-
-Instalamos screen para dejar el proceso de montaje corriendo en segundo plano y montamos con las opciones por defecto.
-```
-apt-get install screen
-screen -S plexdrive
-mkdir /home/plexcloud
-cd /home/plexdrive
-./plexdrive -o allow_other -v 3 -m localhost /home/plexcloud
-```
-
-En la v5 de plexdrive han cambiado ligeramente el comando de ejecución.
-```
-./plexdrive mount -c /home/plexdrive/.plexdrive -o allow_other /home/plexcloud
-```
-
-Nos pedirá los datos que hemos obtenido antes, client id, client secret y nos da una url para loguearnos con nuestra cuenta de drive. Esto nos devolverá una clave, copiamos y la pegamos en la consola.
-
-Plexdrive empezará a cachear todo el contenido de vuestro plex y puede que tarde bastante, deberíamos dejarle hacer hasta que ponga que ha acabado o haya parado la actividad.
-
-Para salir de la screen, simplemente hacemos Control + A + D. Si queremos volver a ella podemos hacerlo con: screen -r plexdrive.
 
 ## Servidor plex
 Vamos a instalar el plex media server y configurarlo.
@@ -204,16 +185,6 @@ A partir de ahora, podéis acceder a vuestro servidor plex mediante http://ipvps
 En los clientes/dispositivos que vayáis a utilizar hay que tener en cuenta un par de consideraciones respecto a la calidad de vídeo y los subtítulos para evitar la transcodificación.
 
 Os dejo los parámetros a ajustar en estas imágenes http://imgur.com/a/HoWyR.
-
-
-Respecto al servidor, en mi caso detecté que estaba haciendo transcoding el audio ac3 5.1 a dispositivos iOS. 
-
-Encontré una solución en el foro de plex. Hay que incluir los dos XML (iOS.xml y tvOS.xml) en el directorio Profiles.
-```
-wget https://raw.githubusercontent.com/titelas/plexvps/master/iOS.xml https://raw.githubusercontent.com/titelas/plexvps/master/tvOS.xml
-mkdir /var/lib/plexmediaserver/Library/Application\ Support/Plex\ Media\ Server/Profiles
-cp iOS.xml tvOS.xml /var/lib/plexmediaserver/Library/Application\ Support/Plex\ Media\ Server/Profiles
-```
 
 
 
@@ -341,7 +312,7 @@ Añadimos la línea después de lo que ya incluimos arriba. Tiene que quedar as�
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
-@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
+@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v 3 plexcloud: /home/plexcloud &
 */15 * * * * /home/rclonemv.sh
 ```
 
@@ -368,8 +339,8 @@ rclone copy -v -u --stats 30s --transfers 10 plexcloud2:ruta/hasta/los/archivos 
 Respecto al parámetro --transfers, indica el número de transferencias simultáneas que podéis realizar a la vez. Deberíais alcanzar mínimo los 30MB/s sin mayor problema, podéis ir jugando con ese valor (10) para maximizar la velocidad. Otra idea es abrir otra sesión de ssh y tener 2 procesos a la vez copiando datos.
 
 ## Contacto
-- Soporte a cambio de invitación a un café. Telegram: http://t.me/titelas
-- Donaciones: https://paypal.me/titelas
+- Estoy en telegram: http://t.me/titelas
+- [Invítame a un café](https://paypal.me/titelas)
 
 ## Enlacés de interés
 - [XML para no transcoding](https://forums.plex.tv/discussion/260803/unnecessary-transcoding-of-h264)
