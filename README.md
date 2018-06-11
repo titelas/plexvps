@@ -100,7 +100,7 @@ apt-get install fuse
 Creamos una carpeta y montamos la unidad en ella.
 ```
 mkdir /home/plexcloud
-rclone mount --allow-other --allow-non-empty -v 3 plexcloud: /home/plexcloud &
+rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
 ```
 
 Si todo ha ido bien, listando el directorio deberéis ver vuestro contenido del drive.
@@ -139,7 +139,7 @@ Pegamos estas líneas y guardamos:
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
-@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v 3 plexcloud: /home/plexcloud &
+@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
 ```
 
 
@@ -312,7 +312,7 @@ Añadimos la línea después de lo que ya incluimos arriba. Tiene que quedar as�
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
-@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v 3 plexcloud: /home/plexcloud &
+@reboot sleep 30 && rclone mount --allow-other --allow-non-empty -v plexcloud: /home/plexcloud &
 */15 * * * * /home/rclonemv.sh
 ```
 
