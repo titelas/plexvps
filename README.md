@@ -180,13 +180,6 @@ A partir de ahora, podéis acceder a vuestro servidor plex mediante http://ipvps
 
 
 
-## Optimizaciones para evitar transcoding
-
-En los clientes/dispositivos que vayáis a utilizar hay que tener en cuenta un par de consideraciones respecto a la calidad de vídeo y los subtítulos para evitar la transcodificación.
-
-Os dejo los parámetros a ajustar en estas imágenes http://imgur.com/a/HoWyR.
-
-
 
 ## plexpy
 Podemos instalar el programa de monitorzación plexpy en nuestro vps para controlar lo que pasa en que cada momento en nuestro servidor y habilitar notificaciones personalizadas de cualquier evento que ocurra.
@@ -338,9 +331,6 @@ rclone copy -v -u --stats 30s --transfers 10 plexcloud2:ruta/hasta/los/archivos 
 
 Respecto al parámetro --transfers, indica el número de transferencias simultáneas que podéis realizar a la vez. Deberíais alcanzar mínimo los 30MB/s sin mayor problema, podéis ir jugando con ese valor (10) para maximizar la velocidad. Otra idea es abrir otra sesión de ssh y tener 2 procesos a la vez copiando datos.
 
-## Contacto
-- Estoy en telegram: http://t.me/titelas
-- [Invítame a un café](https://paypal.me/titelas)
 
 ## Enlacés de interés
 - [XML para no transcoding](https://forums.plex.tv/discussion/260803/unnecessary-transcoding-of-h264)
